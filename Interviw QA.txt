@@ -1,0 +1,99 @@
+- CI automating code integration ,testing, code commits. 
+- CD automates the deployment of code changes to production environments after-  Git-  Jenkins, Ansible, Kubernetes.
+
+Git and Git Hub
+===================VCS - software tool that tracks changes to files over time, enabling developers to manage and coordinate
+- Git workflow - git init -> git add <file> -> git commit -m "Commit message" -> git push origin <branch>
+- Git branching strategies -> separate lines of development within a Git repository, work on features, fixes, or experiments independently without affecting the main codebase
+- merge conflicts in Git ->Git is unable to automatically merge changes from different branches due to conflicting modifications
+         Resolve - git status -> Edit conflicted files: -> git add <file> -> git commit
+Jenkins
+=====================open-source automation server used for building, testing, and deploying software projects. [CI <=> CD]
+- secrets and credentials - managed using the Credentials plugin -> usernames, passwords, SSH keys, and API tokens securely
+- Jenkins to integrate Git - Install the Git plugin in Jenkins-> Config Git executable path ->Create a new Jenkins job->branch specifiers,post-build actions.
+- Jenkins agents(slaves) ->execute build and deployment tasks on behalf of the Jenkins master. 
+- Configuring jenikns instance in prod -> Version Control->Security->Backup and Recovery->Monitoring->High Availability->Scalability
+- CI with Jenkins ->build triggers, executing tests, and generating build artifacts -> version control(webhooks)->trigger builds automatically upon detecting changes->build tasks->
+- CD with Jenkins -> Builds different environments (dev, test, staging, production) ->Integrating with deployment(Kubernetes, Docker)
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+- Declarative Pipeline: 
+
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the project...'
+                // Add build steps here
+            }
+        }
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+- Scripted Pipeline:Groovy scripting syntax
+node {
+    stage('Build') {
+        echo 'Building the project...'
+        // Add build steps here
+    }
+    stage('Test') {
+        echo 'Running tests...'
+        // Add test execution steps here
+    }
+=======================================================================================================================================================
+ AWS
+=====Componets==global service - IAM,route 53, cloud front
+- CloudFormation (IaC)-> Mangage, create AWS resoureces (eg:IAM, s3 bucket, rds) - Terraform-repeatable, reliable, and scalable.
+- CloudWatch-> Monitoring and Logging, infrastructure -> AWS CloudTrail - logging and auditing
+- AWS Systems Manager-> Configuration Management of infrastructure
+- Orchestration: Automating and coordinating tasks - AWS Lambda.
+- VPC -> subnet -> public subnet and private subnet -> Database private
+- EC2 (Elastic Compute Cloud)- resizable compute capacity in the cloud -launch virtual servers-  run applications on intsances
+- Lambda - serverless compute service that runs code in response to events and automatically Upload code - It will take care.
+- Elastic Load Balancing (ELB) and Auto Scaling.
+- IAM (Identity and Access Management)->create users,groups, roles and attache policy-> control access to AWS resources -Implementing network security using security groups and network ACLs Encrypting data - AWS Key Management Service (KMS) 
+- AWS CodePipeline- repository -> building the code -> testing -> deploying -> production
+- AWS direct connection-> high bandwidth for private connection to DB => VPN - for encrypted connection over internet for secure data.
+- AWS Cost Manage -budget,biiling,cost analysis,trusted advisor , saving plan, 
+
+Docker
+=======Run applications - dependencies in isolated containers
+- Container application -> Infrastructure -> os -> Docker -> Containers
+- VM -> Infrastructure -> Hypervisor -> VM
+- Docker file -> Image -> container
+- Buid docker images -> docker build -t myimage:latest
+- Docker networking working -> Default network bridge(creates VN bridge on the host and assigns IP addresses to containers) host, overlay, macvlan networks
+- Docker volumes -> Persisting data across container - share data between containers and the host machine
+- Docker Compose -> multi-container Docker applications -> YAML
+- Docker Hub -> cloud-based registry service - store, share, and manage Docker images
+
+k8s
+=====open-source container orchestration platform that automates the deployment, scaling, and management of containerized applications
+- [Master Node -> API server,scheduler,controller manager,etcd] <==> [Worker Node ->kubelet (node agent), container runtime, and kube-proxy]
+- Pod -> smallest deployable unit in K8s - used to run and scale applications - created, destroyed, or replicated
+- Deployment -> no. of replicas of a pod are running and handles updates and rollbacks gracefully.
+- StatefulSet -> require stable, unique identifiers and persistent storage
+- kube-proxy -> sets up virtual IP addresses,routes traffic to available pods based on the service's selectors,NodePort,LoadBalancer, ExternalName services
+- Kubernetes namespace -> virtual cluster within a K8s cluster, used to partition resources and provide isolation between different users, teams, or applications.
+- Horizontal Scaling -> Increase the number of replicas of a Deployment ==> Vertical Scaling:-Adjust the resource limits and requests for individual containers in a Pod by updating the Pod's resource specifications in the Pod manifest file.
+- Kubernetes handle container networking -> each Pod gets its own IP address, 
+
+Terraform
+========= open-source infrastructure-as-code tool developed by HashiCorp.
+- managing infrastructure by automating the provisioning process, allowing for consistency, repeatability, and version control of infrastructure configurations.
+- Terraform's declarative configuration - desired state of infrastructure without specifying the sequence of steps to achieve it
+- imperative configuration - exact sequence of commands to create or modify infrastructure resources
+- Terraform manages state- storing information about the resources it provisions in a state file, which typically resides locally or remotely
+- Terraform providers-responsible for interacting with APIs of various infrastructure providers(AWS.GCP)to create, update, and delete resources
+- Provider block: Defines the provider and authentication details.
+- Resource block(s): Describes the infrastructure resources to be managed.
+- Variable block(s): Declares input variables used in the configuration.
+- Output block(s): Defines output values to be displayed after provisioning.
+- Module block(s): Optionally organizes configurations into reusable modules.
+- Backend block: Specifies the backend configuration for storing the Terraform state.
+- Terraform module(.tf) - self-contained collection of Terraform configurations that represent a set of related infrastructure resources.promote code reusability, modularity, and maintainability
+- Implicit - dependencies are inferred from resource attributes referenced in other resource configurations
+- explicit - dependencies are defined using the depends_on parameter to explicitly specify dependencies between resources.
+- Terraform workspaces - users to manage multiple distinct sets of infrastructure configurations within the same directory.development -> staging-> production to coexist within a single configuration repository, to avoid duplicating configuration files.
+- Best practices scalable Terraform code - Use Git, Modularizing configurations,Parameterizing configurations,naming conventions,organizing resources logically 
+- sensitive information in Terraform- Use HashiCorp Vault or AWS Secrets Manager,encrypted files, should never be hardcoded
+- Local Backend -Terraform state files on the local filesystem of the machine where Terraform commands are executed
+- Remote Backend - Terraform state files remotely, typically in a shared storage service like Amazon S3, Azure Blob Storage, or HashiCorp Consul
